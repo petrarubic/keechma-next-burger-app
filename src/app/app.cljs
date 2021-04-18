@@ -2,7 +2,10 @@
   (:require [keechma.next.controllers.router]
             [keechma.next.controllers.dataloader]
             [keechma.next.controllers.subscription]
+
             [app.controllers.burger-builder]
+            [app.controllers.login-form]
+
             ["react-dom" :as rdom]))
 
 (defn page-eq? [page] (fn [{:keys [router]}] (= page (:page router))))
@@ -21,5 +24,6 @@
                          :dataloader {:keechma.controller/params true
                                       :keechma.controller/type :keechma/dataloader}
                          :burger-builder        #:keechma.controller {:deps   [:router]
-                                                                      :params (fn [{:keys [router]}]
-                                                                                (= "home" (:page router)) (select-keys router [:page :subpage]))}}})
+                                                                      :params (page-eq? "home")}
+                         :login-form            #:keechma.controller {:deps [:router]
+                                                                      :params true}}})

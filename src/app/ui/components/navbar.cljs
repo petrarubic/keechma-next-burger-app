@@ -18,6 +18,6 @@
          (d/img {:src "/images/burger-logo.png" :className "w-18 h-12 p-2 ml-5 mt-2"})
          (d/div {:className "md:w-1/2 mr-5 mx-auto flex justify-around items-center font-open-sans text-lg"}          
                 ($ NavbarLink {:url (router/get-url props :router {:page "home"}) :text "Burger Builder"})
-                ($ NavbarLink {:url (router/get-url props :router {:page "home" :subpage "auth"}) :text "Authentication"}))))
+                ($ NavbarLink {:url (router/get-url props :router {:page "auth"}) :text "Authentication"}))))
 
 (def Navbar (with-keechma NavbarRenderer))
