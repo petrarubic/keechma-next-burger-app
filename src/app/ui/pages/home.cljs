@@ -6,8 +6,7 @@
             [keechma.next.helix.lib :refer [defnc]]
             [keechma.next.helix.classified :refer [defclassified]]
             [app.ui.components.navbar :refer [Navbar]]
-            [helix.hooks :as hooks]
-            [keechma.next.toolbox.logging :as l]))
+            [helix.hooks :as hooks]))
 
 (defclassified HomepageWrapper :div "h-screen w-screen")
 
@@ -36,7 +35,6 @@
 (defnc HomeRenderer [props]
   (let [burger-ingredients (use-sub props :burger-builder)
         all-ingredients (:ingredients burger-ingredients)
-        _ (println all-ingredients)
         burger-price (:total-price burger-ingredients)
         ;; get count from every ingredient
         salad-count (get-in all-ingredients [0 :count])
@@ -65,6 +63,11 @@
           (d/div {:class "mb-10 text-xl"} (str "Current price: " (.toFixed (+ ingredients-price burger-price) 2)))
           (map (fn [ingredient]
                  (d/div {:key (:id ingredient) :class "flex justify-between items-center p-2"}
+                        (cond 
+                          (= "Salad" (:name ingredient)) (d/img {:src "/images/lettuce.png" :className "w-12 h-12 p-2 mr-2"})
+                          (= "Bacon" (:name ingredient)) (d/img {:src "/images/bacon.png" :className "w-12 h-12 p-2 mr-2"})
+                          (= "Meat" (:name ingredient)) (d/img {:src "/images/meat.png" :className "w-12 h-12 p-2 mr-2"})
+                          (= "Cheese" (:name ingredient)) (d/img {:src "/images/cheese.png" :className "w-12 h-12 p-2 mr-2"}))
                         (d/p {:class "block mr-10 text-xl font-bold w-60"} (:name ingredient))
                         ($ AddButton {:on-click #(dispatch props :burger-builder :add-ingredient (:id ingredient))
                                       :disabled (= 5 (:count ingredient))} "+")
