@@ -5,6 +5,8 @@
 
             [app.controllers.burger-builder]
             [app.controllers.login-form]
+            [app.controllers.checkout-form]
+            [app.controllers.registration-form]
             [app.controllers.current-user]
 
             ["react-dom" :as rdom]))
@@ -31,5 +33,11 @@
                          :current-user          #:keechma.controller {:deps [:router :entitydb]
                                                                       :params true}
                          :login-form            #:keechma.controller {:type :login-form
+                                                                      :deps [:router]
+                                                                      :params (page-eq? "auth")}
+                         :checkout-form         #:keechma.controller {:type :checkout-form
+                                                                      :deps [:router]
+                                                                      :params (page-eq? "checkout")}
+                         :registration-form     #:keechma.controller {:type :registration-form
                                                                       :deps [:router]
                                                                       :params (page-eq? "auth")}}})
