@@ -2,6 +2,7 @@
   "Example homepage 2 3"
   (:require [helix.dom :as d]
             [helix.core :as hx :refer [$]]
+            [keechma.next.controllers.router :as router]
             [keechma.next.helix.core :refer [with-keechma use-sub dispatch]]
             [keechma.next.helix.lib :refer [defnc]]
             [keechma.next.helix.classified :refer [defclassified]]
@@ -17,7 +18,7 @@
 (defclassified IngredientsContainer :div "flex flex-col justify-center items-center bg-gray-500 w-screen py-28 text-sm text-gray-100")
 (defclassified AddButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none mr-5 disabled:opacity-50 disabled:cursor-not-allowed")
 (defclassified RemoveButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none disabled:opacity-50 disabled:cursor-not-allowed")
-(defclassified SignupButton :button "bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
+(defclassified ActionLink :a "cursor-pointer bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
 
 ;; define burger ingredient components
 (defnc Salad [{:keys [count price]}]
@@ -34,6 +35,7 @@
 
 (defnc HomeRenderer [props]
   (let [burger-ingredients (use-sub props :burger-builder)
+        current-user-data (use-sub props :current-user)
         all-ingredients (:ingredients burger-ingredients)
         burger-price (:total-price burger-ingredients)
         ;; get count from every ingredient
@@ -46,7 +48,8 @@
         bacon-price (* (get-in all-ingredients [1 :price]) bacon-count)
         cheese-price (* (get-in all-ingredients [2 :price]) cheese-count)
         meat-price (* (get-in all-ingredients [3 :price]) meat-count)
-        ingredients-price (+ salad-price bacon-price cheese-price meat-price)]
+        ingredients-price (+ salad-price bacon-price cheese-price meat-price)
+        no-ingredients (and (= 0 bacon-count) (= 0 cheese-count) (= 0 meat-count) (= 0 salad-count))]
     ($ HomepageWrapper
        ($ Navbar)
        (d/div {:class "h-full w-full flex flex-col justify-center"}
@@ -73,6 +76,10 @@
                                       :disabled (= 5 (:count ingredient))} "+")
                         ($ RemoveButton {:on-click #(dispatch props :burger-builder :remove-ingredient (:id ingredient))
                                          :disabled (= 0 (:count ingredient))} "-"))) all-ingredients)
-          ($ SignupButton {:disabled (and (= 0 bacon-count) (= 0 cheese-count) (= 0 meat-count) (= 0 salad-count))} "Sign up to order")))))
+          (if current-user-data
+            ($ ActionLink {:href (router/get-url props :router {:page "checkout"})
+                           :disabled no-ingredients} "Order your burger")
+            ($ ActionLink {:href (router/get-url props :router {:page "auth"})
+                           :disabled no-ingredients} "Sign up to order"))))))
 
 (def Home (with-keechma HomeRenderer))

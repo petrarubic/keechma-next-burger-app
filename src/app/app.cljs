@@ -5,6 +5,7 @@
 
             [app.controllers.burger-builder]
             [app.controllers.login-form]
+            [app.controllers.current-user]
 
             ["react-dom" :as rdom]))
 
@@ -23,7 +24,12 @@
                                   :keechma/routes [["" {:page "home"}] ":page" ":page/:subpage"]}
                          :dataloader {:keechma.controller/params true
                                       :keechma.controller/type :keechma/dataloader}
+                         :entitydb    {:keechma.controller/params true
+                                       :keechma.controller/type :keechma/entitydb}
                          :burger-builder        #:keechma.controller {:deps   [:router]
                                                                       :params (page-eq? "home")}
-                         :login-form            #:keechma.controller {:deps [:router]
-                                                                      :params true}}})
+                         :current-user          #:keechma.controller {:deps [:router :entitydb]
+                                                                      :params true}
+                         :login-form            #:keechma.controller {:type :login-form
+                                                                      :deps [:router]
+                                                                      :params (page-eq? "auth")}}})

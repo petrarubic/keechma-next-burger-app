@@ -1,4 +1,4 @@
-(ns app.controllers.login-form
+(ns app.controllers.checkout-form
   (:require [keechma.next.controller :as ctrl]
             [keechma.next.controllers.pipelines :as pipelines]
             [keechma.next.controllers.router :as router]
@@ -8,17 +8,17 @@
             [app.validators :as v]
             [keechma.pipelines.core :as pp :refer-macros [pipeline!]]))
 
-(derive :login-form ::pipelines/controller)
+(derive :checkout-form ::pipelines/controller)
 
 (def pipelines
   {:keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
-              (let [email (:email value)
-                    password (:password value)]
-                (ctrl/broadcast ctrl :login {:email email :password password}))
               (router/redirect! ctrl :router {:page "home"}))})
 
-(defmethod ctrl/prep :login-form [ctrl]
-  (pipelines/register ctrl 
-                      (form/wrap pipelines (v/to-validator {:email [:email :not-empty]
-                                                            :password [:not-empty :ok-password]}))))
+(defmethod ctrl/prep :checkout-form [ctrl]
+  (pipelines/register ctrl
+                      (form/wrap pipelines (v/to-validator {:name [:not-empty]
+                                                            :street [:not-empty]
+                                                            :zipcode [:not-empty]
+                                                            :country [:not-empty]
+                                                            :email [:email :not-empty]}))))

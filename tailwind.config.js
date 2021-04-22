@@ -7,6 +7,7 @@ module.exports = {
   },
   variants: {
     extend: {
+      textColor: ['visited'],
       opacity: ['disabled'],
       cursor: ['disabled'],
     }

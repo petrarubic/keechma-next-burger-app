@@ -326,6 +326,5 @@
               (input (assoc props :class "relative appearance-none bg-transparent
                                                    leading-tight focus:outline-none text-gray2
                                                    min-w-full pb-3 pt-3 pl-2 outline-none border-b border-solid border-orange-400
-                                                   focus:border-orange-200 hover:bg-gray-700 focus:bg-gray-900
-                                                   "))
+                                                   focus:border-orange-200 hover:border-gray-300 focus:border-gray-300"))
               ($ Errors {& props})))
