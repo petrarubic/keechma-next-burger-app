@@ -18,7 +18,7 @@
 (defclassified IngredientsContainer :div "flex flex-col justify-center items-center bg-gray-500 w-screen py-28 text-sm text-gray-100")
 (defclassified AddButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none mr-5 disabled:opacity-50 disabled:cursor-not-allowed")
 (defclassified RemoveButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none disabled:opacity-50 disabled:cursor-not-allowed")
-(defclassified ActionLink :a "cursor-pointer bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
+(defclassified ActionButton :button "bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
 
 ;; define burger ingredient components
 (defnc Salad [{:keys [count price]}]
@@ -63,23 +63,25 @@
               (map (fn [] ($ Meat)) (range 0 meat-count))
               ($ BreadBottom))
        ($ IngredientsContainer
-          (d/div {:class "mb-10 text-xl"} (str "Current price: " (.toFixed (+ ingredients-price burger-price) 2)))
+          (d/p {:class "mb-10 text-xl"} 
+               (d/span "Current price: ") 
+               (d/span {:class "font-bold"} (str (.toFixed (+ ingredients-price burger-price) 2))))
           (map (fn [ingredient]
                  (d/div {:key (:id ingredient) :class "flex justify-between items-center p-2"}
                         (cond 
-                          (= "Salad" (:name ingredient)) (d/img {:src "/images/lettuce.png" :className "w-12 h-12 p-2 mr-2"})
-                          (= "Bacon" (:name ingredient)) (d/img {:src "/images/bacon.png" :className "w-12 h-12 p-2 mr-2"})
-                          (= "Meat" (:name ingredient)) (d/img {:src "/images/meat.png" :className "w-12 h-12 p-2 mr-2"})
-                          (= "Cheese" (:name ingredient)) (d/img {:src "/images/cheese.png" :className "w-12 h-12 p-2 mr-2"}))
+                          (= "Salad" (:name ingredient)) (d/img {:src "/images/lettuce.png" :className "w-14 h-14 p-2 mr-2"})
+                          (= "Bacon" (:name ingredient)) (d/img {:src "/images/bacon.png" :className "w-14 h-14 p-2 mr-2"})
+                          (= "Meat" (:name ingredient)) (d/img {:src "/images/meat.png" :className "w-14 h-14 p-2 mr-2"})
+                          (= "Cheese" (:name ingredient)) (d/img {:src "/images/cheese.png" :className "w-14 h-14 p-2 mr-2"}))
                         (d/p {:class "block mr-10 text-xl font-bold w-60"} (:name ingredient))
                         ($ AddButton {:on-click #(dispatch props :burger-builder :add-ingredient (:id ingredient))
                                       :disabled (= 5 (:count ingredient))} "+")
                         ($ RemoveButton {:on-click #(dispatch props :burger-builder :remove-ingredient (:id ingredient))
                                          :disabled (= 0 (:count ingredient))} "-"))) all-ingredients)
           (if current-user-data
-            ($ ActionLink {:href (router/get-url props :router {:page "checkout"})
-                           :disabled no-ingredients} "Order your burger")
-            ($ ActionLink {:href (router/get-url props :router {:page "auth"})
-                           :disabled no-ingredients} "Sign up to order"))))))
+            ($ ActionButton {:on-click #(router/redirect! props :router {:page "checkout"})
+                             :disabled no-ingredients} "Order your burger")
+            ($ ActionButton {:on-click #(router/redirect! props :router {:page "auth"})
+                             :disabled no-ingredients} "Sign up to order"))))))
 
 (def Home (with-keechma HomeRenderer))

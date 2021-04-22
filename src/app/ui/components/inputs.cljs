@@ -276,9 +276,9 @@
 (defmethod wrapped-input :text [props]
   (d/fieldset {:class (str "margin-auto h-16 w-full input-field-focus" (:assoc/class props))}
               (input (assoc props :class (str (if (not (:prepend/icon props))
-                                                "min-w-full pt-1 pb-2 pl-2 outline-none border-b border-solid border-gray-300
+                                                "min-w-full pt-1 pt-2 pb-2 pl-4 outline-none border rounded-lg border-solid border-gray-300
                                                           focus:border-gray-200 placeholder-gray-700"
-                                                "min-w-full pt-1 pb-2 pl-8 outline-none border-b border-red-600 focus:border-2")
+                                                "min-w-full pt-1 pt-2 pb-2 pl-8 outline-none border rounded-lg border-red-600 focus:border-2")
                                               (when (:errors props) "border-red-600"))))
               ($ Errors {& props})))
 
@@ -322,9 +322,9 @@
               ($ Errors {& props})))
 
 (defmethod wrapped-input :select [props]
-  (d/fieldset {:class "form-group w-full px-2 text-md"}
+  (d/fieldset {:class "form-group w-full text-md"}
               (input (assoc props :class "relative appearance-none bg-transparent
                                                    leading-tight focus:outline-none text-gray2
-                                                   min-w-full pb-3 pt-3 pl-2 outline-none border-b border-solid border-orange-400
+                                                   min-w-full pb-3 pt-3 pl-4 outline-none border rounded-lg border-solid border-orange-400
                                                    focus:border-orange-200 hover:border-gray-300 focus:border-gray-300"))
               ($ Errors {& props})))

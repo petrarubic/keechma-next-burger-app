@@ -11,7 +11,10 @@
 (derive :login-form ::pipelines/controller)
 
 (def pipelines
-  {:keechma.form/submit-data
+  {:keechma.form/get-data (pipeline! [_ _]
+                                     {:email    "petra.rubic@test.com"
+                                      :password "test1234"})
+   :keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
               (let [email (:email value)
                     password (:password value)]

@@ -19,6 +19,7 @@
   (pipelines/register ctrl
                       (form/wrap pipelines (v/to-validator {:name [:not-empty]
                                                             :street [:not-empty]
-                                                            :zipcode [:not-empty]
-                                                            :country [:not-empty]
-                                                            :email [:email :not-empty]}))))
+                                                            :zipcode [:not-empty :valid-zipcode]
+                                                            :country [:not-empty :valid-country]
+                                                            :email [:email :not-empty]
+                                                            :order-type [:not-empty]}))))

@@ -10,24 +10,24 @@
             [app.ui.components.navbar :refer [Navbar]]))
 
 (defclassified AuthWrapper :div "h-screen w-screen")
-(defclassified SubmitButton :button "focus:outline-none cursor-pointer w-full flex items-center justify-center mt-4 px-8 py-3 border border-transparent text-base font-medium rounded-md text-green-600 md:py-4 md:text-lg md:px-10")
+(defclassified SubmitButton :button "focus:outline-none hover:text-lime-500 cursor-pointer w-full flex items-center justify-center mt-4 px-8 border border-transparent text-base font-bold rounded-md text-lime-600 md:text-xl md:px-10")
 
 (defnc AuthRenderer [props]
   ($ AuthWrapper
        ($ Navbar)
-       (d/div {:class "h-full w-full flex justify-center"}
-              (d/div {:class "flex-col h-2/4 w-2/3 rounded-lg shadow-lg overflow-hidden my-20"}
+       (d/div {:class "h-full w-full flex justify-center bg-gray-100"}
+              (d/div {:class "flex-col h-2/5 w-2/3 rounded-lg shadow-lg overflow-hidden my-20 bg-white"}
                      (d/div {:class "flex-1 p-6 mt-6 items-center mx-40 my-6"}
                             (d/form {:on-submit (fn [e] (.preventDefault e) (dispatch props :login-form :keechma.form/submit))}
+                                    (d/p {:class "font-bold pb-2 pt-2"} "Email")
                                     (wrapped-input {:keechma.form/controller :login-form
                                                     :input/type :text
-                                                    :input/attr :email
-                                                    :placeholder "Email"})
+                                                    :input/attr :email})
+                                    (d/p {:class "font-bold pb-2 pt-2"} "Password")
                                     (wrapped-input {:keechma.form/controller :login-form
                                                     :input/type :text
                                                     :input/attr [:password]
-                                                    :type "password"
-                                                    :placeholder "Password"})
-                                    ($ SubmitButton "Submit")))))))
+                                                    :type "password"})
+                                    ($ SubmitButton "SUBMIT")))))))
 
 (def Auth (with-keechma AuthRenderer))
