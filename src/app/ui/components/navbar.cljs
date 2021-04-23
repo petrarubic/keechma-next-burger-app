@@ -16,13 +16,13 @@
 (defnc NavbarRenderer [props]
   (let [current-user-data (use-sub props :current-user)]
     (d/div {:className "bg-gray-500 w-full text-white h-16 py-0 fixed md:relative top-0 z-10 flex"}
-         (d/img {:src "/images/burger-logo.png" :className "w-18 h-12 p-2 ml-5 mt-2"})
-         (d/div {:className "md:w-1/2 mx-auto flex justify-around items-center font-open-sans text-lg"}          
-                ($ NavbarLink {:url (router/get-url props :router {:page "home"}) :text "Burger Builder"})
-                (if current-user-data
-                  (d/div
-                   ($ NavbarLink {:url "#" :text "Orders"})
-                   ($ NavbarLink {:url "#" :text "Logout"}))
-                  ($ NavbarLink {:url (router/get-url props :router {:page "auth"}) :text "Authentication"}))))))
+           (d/img {:src "/images/burger-logo.png" :className "w-18 h-12 p-2 ml-5 mt-2"})
+           (d/div {:className "md:w-1/2 mx-auto flex justify-right items-center font-open-sans text-lg"}
+                  ($ NavbarLink {:url (router/get-url props :router {:page "home"}) :text "Burger Builder"})
+                  (if current-user-data
+                    (d/div
+                     ($ NavbarLink {:url (router/get-url props :router {:page "orders"}) :text "Orders"})
+                     (d/button {:on-click #(dispatch props :current-user :logout) :class "focus:outline-none border-b-4 border-gray-500 mr-5 hover:border-gray-700 pt-1 transition ease-in-out duration-200"} "Log out"))
+                    ($ NavbarLink {:url (router/get-url props :router {:page "auth"}) :text "Authentication"}))))))
 
 (def Navbar (with-keechma NavbarRenderer))

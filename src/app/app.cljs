@@ -4,9 +4,10 @@
             [keechma.next.controllers.subscription]
 
             [app.controllers.burger-builder]
-            [app.controllers.login-form]
-            [app.controllers.checkout-form]
-            [app.controllers.registration-form]
+            [app.controllers.orders]
+            [app.controllers.forms.login-form]
+            [app.controllers.forms.checkout-form]
+            [app.controllers.forms.registration-form]
             [app.controllers.current-user]
 
             ["react-dom" :as rdom]))
@@ -29,7 +30,9 @@
                          :entitydb    {:keechma.controller/params true
                                        :keechma.controller/type :keechma/entitydb}
                          :burger-builder        #:keechma.controller {:deps   [:router]
-                                                                      :params (page-eq? "home")}
+                                                                      :params true}
+                         :orders                #:keechma.controller {:deps [:router]
+                                                                      :params (page-eq? "orders")}
                          :current-user          #:keechma.controller {:deps [:router :entitydb]
                                                                       :params true}
                          :login-form            #:keechma.controller {:type :login-form

@@ -22,6 +22,18 @@
                      ingredients)]
     (assoc state :ingredients ingredients')))
 
+(defn calculate-total-price [{:keys [ingredients total-price] :as state}]
+  (let [salad-count (get-in ingredients [0 :count])
+        bacon-count (get-in ingredients [1 :count])
+        cheese-count (get-in ingredients [2 :count])
+        meat-count (get-in ingredients [3 :count])
+        salad-price (* (get-in ingredients [0 :price]) salad-count)
+        bacon-price (* (get-in ingredients [1 :price]) bacon-count)
+        cheese-price (* (get-in ingredients [2 :price]) cheese-count)
+        meat-price (* (get-in ingredients [3 :price]) meat-count)
+        total-price' (+ 4 salad-price bacon-price cheese-price meat-price)]
+    (assoc state :total-price total-price')))
+
 (defn remove-ingredient [{:keys [ingredients] :as state} id]
   (let [ingredients' (mapv (fn [ingredient]
                              (if (= id (:id ingredient))
@@ -34,4 +46,5 @@
   (case ev
     :add-ingredient (swap! state* add-ingredient payload)
     :remove-ingredient (swap! state* remove-ingredient payload)
+    :calculate-total-price (swap! state* calculate-total-price payload)
     nil))

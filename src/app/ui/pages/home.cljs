@@ -43,12 +43,7 @@
         bacon-count (get-in all-ingredients [1 :count])
         cheese-count (get-in all-ingredients [2 :count])
         meat-count (get-in all-ingredients [3 :count])
-        ;; get price from every ingredient
-        salad-price (* (get-in all-ingredients [0 :price]) salad-count)
-        bacon-price (* (get-in all-ingredients [1 :price]) bacon-count)
-        cheese-price (* (get-in all-ingredients [2 :price]) cheese-count)
-        meat-price (* (get-in all-ingredients [3 :price]) meat-count)
-        ingredients-price (+ salad-price bacon-price cheese-price meat-price)
+        ;; 0 ingredient check
         no-ingredients (and (= 0 bacon-count) (= 0 cheese-count) (= 0 meat-count) (= 0 salad-count))]
     ($ HomepageWrapper
        ($ Navbar)
@@ -65,7 +60,7 @@
        ($ IngredientsContainer
           (d/p {:class "mb-10 text-xl"} 
                (d/span "Current price: ") 
-               (d/span {:class "font-bold"} (str (.toFixed (+ ingredients-price burger-price) 2))))
+               (d/span {:class "font-bold"} (str (.toFixed burger-price 2))))
           (map (fn [ingredient]
                  (d/div {:key (:id ingredient) :class "flex justify-between items-center p-2"}
                         (cond 
@@ -78,6 +73,8 @@
                                       :disabled (= 5 (:count ingredient))} "+")
                         ($ RemoveButton {:on-click #(dispatch props :burger-builder :remove-ingredient (:id ingredient))
                                          :disabled (= 0 (:count ingredient))} "-"))) all-ingredients)
+          ($ ActionButton {:on-click #(dispatch props :burger-builder :calculate-total-price)} "Calculate Total")
+          (println burger-price)
           (if current-user-data
             ($ ActionButton {:on-click #(router/redirect! props :router {:page "checkout"})
                              :disabled no-ingredients} "Order your burger")

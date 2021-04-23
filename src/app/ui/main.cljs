@@ -6,7 +6,8 @@
             
             [app.ui.pages.home :refer [Home]]
             [app.ui.pages.auth :refer [Auth]]
-            [app.ui.pages.checkout :refer [Checkout]]))
+            [app.ui.pages.checkout :refer [Checkout]]
+            [app.ui.pages.orders :refer [Orders]]))
 
 (defnc MainRenderer [props]
   (let [{:keys [page]} (use-sub props :router)]
@@ -14,6 +15,7 @@
       "home" ($ Home)
       "auth" ($ Auth)
       "checkout" ($ Checkout)
+      "orders" ($ Orders)
       (d/div "404"))))
 
 (def Main (with-keechma MainRenderer))

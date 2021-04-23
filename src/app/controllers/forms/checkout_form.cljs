@@ -1,4 +1,4 @@
-(ns app.controllers.checkout-form
+(ns app.controllers.forms.checkout-form
   (:require [keechma.next.controller :as ctrl]
             [keechma.next.controllers.pipelines :as pipelines]
             [keechma.next.controllers.router :as router]
@@ -13,7 +13,7 @@
 (def pipelines
   {:keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
-              (router/redirect! ctrl :router {:page "home"}))})
+              (router/redirect! ctrl :router {:page "orders"}))})
 
 (defmethod ctrl/prep :checkout-form [ctrl]
   (pipelines/register ctrl

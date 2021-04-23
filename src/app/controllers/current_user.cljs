@@ -18,7 +18,9 @@
                (edb/insert-named! ctrl :entitydb :user :user/current {:id id :username username :email email :password password}))))
 
 (def pipelines
-  {:login load-current-user})
+  {:login load-current-user
+   :logout (pipeline! [value ctrl]
+                      (.reload js/window.location true))})
 
 (defmethod ctrl/prep :current-user [ctrl] 
   (pipelines/register ctrl pipelines))
