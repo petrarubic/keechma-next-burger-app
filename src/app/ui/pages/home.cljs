@@ -9,16 +9,16 @@
             [app.ui.components.navbar :refer [Navbar]]
             [helix.hooks :as hooks]))
 
-(defclassified HomepageWrapper :div "h-screen w-screen")
+(defclassified HomepageWrapper :div "h-screen w-screen font-poppins")
 
 ;; burger component build
 (defclassified BreadBottom :div "m-auto h-24 w-3/6 rounded-b-3xl mt-1 shadow-inner bg-gradient-to-r from-yellow-700 to-yellow-600")
 (defclassified BreadTop :div "m-auto h-1/6 w-3/6 mb-1 rounded-t-full shadow-inner relative bg-gradient-to-r from-yellow-700 to-yellow-600")
 
 (defclassified IngredientsContainer :div "flex flex-col justify-center items-center bg-gray-500 w-screen py-28 text-sm text-gray-100")
-(defclassified AddButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none mr-5 disabled:opacity-50 disabled:cursor-not-allowed")
-(defclassified RemoveButton :button "bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none disabled:opacity-50 disabled:cursor-not-allowed")
-(defclassified ActionButton :button "bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
+(defclassified AddButton :button "focus:outline-none bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none mr-5 disabled:opacity-50 disabled:cursor-not-allowed")
+(defclassified RemoveButton :button "focus:outline-none bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 border border-gray-700 rounded outline-none disabled:opacity-50 disabled:cursor-not-allowed")
+(defclassified ActionButton :button "focus:outline-none bg-gray-600 hover:bg-gray-700 text-white text-lg font-bold py-2 px-8 border border-gray-700 rounded outline-none mt-5 disabled:opacity-50 disabled:cursor-not-allowed")
 
 ;; define burger ingredient components
 (defnc Salad [{:keys [count price]}]
@@ -52,15 +52,12 @@
               (if (= 0 salad-count bacon-count cheese-count meat-count)
                 (d/div {:class "text-xl font-semibold text-center mt-5 mb-5"} "Please start adding ingredients!")
                 nil)      
-              (map (fn [] ($ Salad)) (range 0 salad-count))
-              (map (fn [] ($ Bacon)) (range 0 bacon-count))
-              (map (fn [] ($ Cheese)) (range 0 cheese-count))
-              (map (fn [] ($ Meat)) (range 0 meat-count))
+              (map (fn [] ($ Salad {:key (gensym "salad")})) (range 0 salad-count))
+              (map (fn [] ($ Bacon {:key (gensym "bacon")})) (range 0 bacon-count))
+              (map (fn [] ($ Cheese {:key (gensym "cheese")})) (range 0 cheese-count))
+              (map (fn [] ($ Meat {:key (gensym "meat")})) (range 0 meat-count))
               ($ BreadBottom))
        ($ IngredientsContainer
-          (d/p {:class "mb-10 text-xl"} 
-               (d/span "Current price: ") 
-               (d/span {:class "font-bold"} (str (.toFixed burger-price 2))))
           (map (fn [ingredient]
                  (d/div {:key (:id ingredient) :class "flex justify-between items-center p-2"}
                         (cond 
@@ -73,11 +70,16 @@
                                       :disabled (= 5 (:count ingredient))} "+")
                         ($ RemoveButton {:on-click #(dispatch props :burger-builder :remove-ingredient (:id ingredient))
                                          :disabled (= 0 (:count ingredient))} "-"))) all-ingredients)
-          ($ ActionButton {:on-click #(dispatch props :burger-builder :calculate-total-price)} "Calculate Total")
-          (println burger-price)
+          (d/p {:class "mb-5 mt-10 text-xl"}
+               (d/span "Total price: ")
+               (d/span {:class "font-bold"} (str (.toFixed burger-price 2))))
+          ($ ActionButton {:on-click (fn [e]
+                                       (.preventDefault e)
+                                       (dispatch props :burger-builder :burger-created)
+                                       (dispatch props :burger-builder :calculate-total-price))} "Calculate Total")
           (if current-user-data
             ($ ActionButton {:on-click #(router/redirect! props :router {:page "checkout"})
-                             :disabled no-ingredients} "Order your burger")
+                             :disabled (= burger-price 0.00)} "Order your burger")
             ($ ActionButton {:on-click #(router/redirect! props :router {:page "auth"})
                              :disabled no-ingredients} "Sign up to order"))))))
 

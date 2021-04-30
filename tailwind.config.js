@@ -16,6 +16,10 @@ module.exports = {
     extend: {
       colors: {
         lime: colors.lime
+      },
+      fontFamily: {
+        nunito: ['Nunito Sans'],
+        poppins: ['Poppins']
       }
     }
   }

@@ -15,7 +15,7 @@
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
               (let [email (:email value)
                     password (:password value)]
-                (ctrl/broadcast ctrl :login {:email email :password password}))
+                (ctrl/broadcast ctrl :register {:email email :password password}))
               (router/redirect! ctrl :router {:page "home"}))})
 
 (defmethod ctrl/prep :registration-form [ctrl]

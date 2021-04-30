@@ -9,14 +9,14 @@
             [app.ui.components.inputs :refer [wrapped-input]]
             [app.ui.components.navbar :refer [Navbar]]))
 
-(defclassified CheckoutWrapper :div "h-screen w-screen")
-(defclassified SubmitButton :button "focus:outline-none hover:text-lime-500 cursor-pointer w-full flex items-center justify-center mt-4 px-8 py-3 border border-transparent text-base font-bold rounded-md text-lime-600 md:py-4 md:text-xl md:px-10")
+(defclassified CheckoutWrapper :div "h-screen w-screen font-poppins")
+(defclassified SubmitButton :button "focus:outline-none hover:text-lime-500 cursor-pointer w-full flex items-center justify-center mt-4 px-8 py-3 border border-transparent text-2xl font-bold rounded-md text-lime-600 md:py-4 md:px-10")
 
 (defnc CheckoutRenderer [props]
   ($ CheckoutWrapper
      ($ Navbar)
      (d/div {:class "h-full w-full flex justify-center bg-gray-100"}
-            (d/div {:class "flex-col h-4/5 w-2/3 rounded-lg shadow-lg overflow-hidden my-20 bg-white"}
+            (d/div {:class "flex-col h-2/3 w-2/3 rounded-lg shadow-lg overflow-y-scroll my-20 bg-white"}
                    (d/div {:class "flex-1 p-6 mt-6 items-center mx-40 my-6"}
                           (d/p )
                           (d/form {:on-submit (fn [e] (.preventDefault e) (dispatch props :checkout-form :keechma.form/submit))}
@@ -43,7 +43,7 @@
                                   (d/p {:class "font-bold pb-2 pt-2"} "Delivery Type")
                                   (wrapped-input {:keechma.form/controller :checkout-form
                                                   :input/type :select
-                                                  :input/attr :order-type
+                                                  :input/attr :delivery-type
                                                   :options [{:value "default" :label "---Select delivery type---"}
                                                             {:value "fastest" :label "Fastest"}
                                                             {:value "cheapest" :label "Cheapest"}]})

@@ -12,7 +12,8 @@
 
 (defmethod ctrl/start :burger-builder [ctrl params prev]
   {:ingredients burger-ingredients
-   :total-price 4.00})
+   :burgers []
+   :total-price 0.00})
 
 (defn add-ingredient [{:keys [ingredients] :as state} id]
   (let [ingredients' (mapv (fn [ingredient]
@@ -42,9 +43,15 @@
                            ingredients)]
     (assoc state :ingredients ingredients')))
 
+(defn prepend-burger [{:keys [ingredients burgers total-price] :as state}]
+  (let [burgers' (conj burgers {:id (gensym "burger")
+                                :ingredients ingredients})]
+    (assoc state :burgers burgers')))
+
 (defmethod ctrl/handle :burger-builder [{:keys [state*] :as ctrl} ev payload]
   (case ev
     :add-ingredient (swap! state* add-ingredient payload)
     :remove-ingredient (swap! state* remove-ingredient payload)
     :calculate-total-price (swap! state* calculate-total-price payload)
+    :burger-created (swap! state* prepend-burger payload)
     nil))

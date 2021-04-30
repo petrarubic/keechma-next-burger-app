@@ -11,8 +11,19 @@
 (derive :checkout-form ::pipelines/controller)
 
 (def pipelines
-  {:keechma.form/submit-data
+  {:keechma.form/get-data (pipeline! [_ _]
+                                     {:name     "Petra Rubic"
+                                      :street   "Hamilton Street 34"
+                                      :email    "petra.rubic@test.com"
+                                      :zipcode  "55678"
+                                      :country  "United States"})
+   :keechma.form/submit-data
    (pipeline! [value {:keys [meta-state*] :as ctrl}]
+              (let [street (:street value)
+                    zipcode (:zipcode value)
+                    country (:country value)
+                    delivery-type (:delivery-type value)]
+                (ctrl/broadcast ctrl :order-created {:id (gensym "order") :street street :zipcode zipcode :country country :delivery-type delivery-type}))
               (router/redirect! ctrl :router {:page "orders"}))})
 
 (defmethod ctrl/prep :checkout-form [ctrl]
@@ -22,4 +33,4 @@
                                                             :zipcode [:not-empty :valid-zipcode]
                                                             :country [:not-empty :valid-country]
                                                             :email [:email :not-empty]
-                                                            :order-type [:not-empty]}))))
+                                                            :delivery-type [:not-empty]}))))

@@ -9,14 +9,14 @@
             [app.ui.components.inputs :refer [wrapped-input]]
             [app.ui.components.navbar :refer [Navbar]]))
 
-(defclassified AuthWrapper :div "h-screen w-screen")
-(defclassified SubmitButton :button "focus:outline-none hover:text-lime-500 cursor-pointer w-full flex items-center justify-center mt-4 px-8 border border-transparent text-base font-bold rounded-md text-lime-600 md:text-xl md:px-10")
+(defclassified AuthWrapper :div "h-screen w-screen font-poppins")
+(defclassified SubmitButton :button "focus:outline-none hover:text-lime-500 cursor-pointer w-full flex items-center justify-center mt-4 px-8 border border-transparent text-2xl font-bold rounded-md text-lime-600 md:px-10")
 
 (defnc AuthRenderer [props]
   ($ AuthWrapper
        ($ Navbar)
        (d/div {:class "h-full w-full flex justify-center bg-gray-100"}
-              (d/div {:class "flex-col h-2/5 w-2/3 rounded-lg shadow-lg overflow-hidden my-20 bg-white"}
+              (d/div {:class "flex-col h-2/3 w-2/3 rounded-lg shadow-lg overflow-hidden my-20 bg-white"}
                      (d/div {:class "flex-1 p-6 mt-6 items-center mx-40 my-6"}
                             (d/form {:on-submit (fn [e] (.preventDefault e) (dispatch props :login-form :keechma.form/submit))}
                                     (d/p {:class "font-bold pb-2 pt-2"} "Email")

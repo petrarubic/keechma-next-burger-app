@@ -20,6 +20,7 @@
 (def pipelines
   {:login load-current-user
    :logout (pipeline! [value ctrl]
+                      (router/redirect! ctrl :router {:page "home"})
                       (.reload js/window.location true))})
 
 (defmethod ctrl/prep :current-user [ctrl] 
