@@ -13,7 +13,9 @@
 (defnc OrdersRenderer [props]
   (let [orders (use-sub props :orders)
         burger-builder (use-sub props :burger-builder)
-        burgers (:burgers burger-builder)]
+        burgers (:burgers burger-builder)
+        _ (println orders)
+        _ (println burgers)]
   ($ OrdersWrapper
      ($ Navbar)
      (d/div {:class "h-full w-full bg-gray-100 overflow-y-scroll"}
