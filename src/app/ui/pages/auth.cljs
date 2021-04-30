@@ -16,7 +16,7 @@
   ($ AuthWrapper
        ($ Navbar)
        (d/div {:class "h-full w-full flex justify-center bg-gray-100 overflow-y-scroll"}
-              (d/div {:class "flex-col h-1/3 w-2/3 rounded-lg shadow-lg my-20 bg-white"}
+              (d/div {:class "flex-col h-1/3 md:h-2/3 w-2/3 rounded-lg shadow-lg my-20 bg-white"}
                      (d/div {:class "flex-1 p-6 mt-6 items-center mx-40 my-6"}
                             (d/form {:on-submit (fn [e] (.preventDefault e) (dispatch props :login-form :keechma.form/submit))}
                                     (d/p {:class "font-bold pb-2 pt-2"} "Email")

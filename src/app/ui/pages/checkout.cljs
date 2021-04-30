@@ -16,7 +16,7 @@
   ($ CheckoutWrapper
      ($ Navbar)
      (d/div {:class "h-full w-full flex justify-center bg-gray-100 overflow-y-scroll "}
-            (d/div {:class "flex-col h-4/5 w-2/3 rounded-lg shadow-lg my-20 bg-white"}
+            (d/div {:class "flex-col h-4/5 md:overflow-y-scroll w-2/3 rounded-lg shadow-lg my-20 bg-white"}
                    (d/div {:class "flex-1 p-6 mt-6 items-center mx-40 my-6"}
                           (d/p )
                           (d/form {:on-submit (fn [e] (.preventDefault e) (dispatch props :checkout-form :keechma.form/submit))}

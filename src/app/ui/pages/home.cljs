@@ -61,10 +61,10 @@
           (map (fn [ingredient]
                  (d/div {:key (:id ingredient) :class "flex justify-between items-center p-2"}
                         (cond 
-                          (= "Salad" (:name ingredient)) (d/img {:src "/images/lettuce.png" :className "floating w-14 h-14 p-2 mr-2"})
-                          (= "Bacon" (:name ingredient)) (d/img {:src "/images/bacon.png" :className "floating w-14 h-14 p-2 mr-2"})
-                          (= "Meat" (:name ingredient)) (d/img {:src "/images/meat.png" :className "floating w-14 h-14 p-2 mr-2"})
-                          (= "Cheese" (:name ingredient)) (d/img {:src "/images/cheese.png" :className "floating w-14 h-14 p-2 mr-2"}))
+                          (= "Salad" (:name ingredient)) (d/img {:src "/images/lettuce.png" :className "floating w-14 h-14 p-2 mr-4"})
+                          (= "Bacon" (:name ingredient)) (d/img {:src "/images/bacon.png" :className "floating w-14 h-14 p-2 mr-4"})
+                          (= "Meat" (:name ingredient)) (d/img {:src "/images/meat.png" :className "floating w-14 h-14 p-2 mr-4"})
+                          (= "Cheese" (:name ingredient)) (d/img {:src "/images/cheese.png" :className "floating w-14 h-14 p-2 mr-4"}))
                         (d/p {:class "block mr-10 text-xl font-bold w-60"} (:name ingredient))
                         ($ AddButton {:on-click #(dispatch props :burger-builder :add-ingredient (:id ingredient))
                                       :disabled (= 5 (:count ingredient))} "+")
